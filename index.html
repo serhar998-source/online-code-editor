@@ -13,6 +13,7 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow: hidden; /* 🔴 yatay scroll'u kesin kapat */
     }
 
     .top-bar {
@@ -23,17 +24,35 @@
       border-bottom: 1px solid #333;
     }
 
-    select, button {  
+    select, button {
       padding: 6px 10px;
       cursor: pointer;
     }
 
-    #editor {
+    .main {
       flex: 1;
+      display: flex;
+      overflow: hidden; /* 🔴 kritik */
+    }
+
+    #editor {
+      width: 100%;
+      transition: width 0.2s ease;
+    }
+
+    .preview {
+      width: 40%;
+      min-width: 40%;
+      border-left: 1px solid #333;
+      background: white;
+    }
+
+    .preview.hidden {
+      display: none;
     }
 
     .output {
-      height: 180px;
+      height: 160px;
       background: #111;
       border-top: 1px solid #333;
       overflow: auto;
@@ -48,13 +67,20 @@
 <div class="top-bar">
   <select id="languageSelect">
     <option value="javascript">JavaScript</option>
+    <option value="typescript">TypeScript</option>
     <option value="python">Python</option>
+    <option value="html">HTML</option>
+    <option value="css">CSS</option>
   </select>
 
   <button id="runBtn">▶ Çalıştır</button>
 </div>
 
-<div id="editor"></div>
+<div class="main">
+  <div id="editor"></div>
+  <iframe class="preview hidden" id="preview"></iframe>
+</div>
+
 <div class="output"><pre id="output"></pre></div>
 
 <!-- Monaco -->
@@ -77,14 +103,13 @@
   });
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/typescript@5.4.5/lib/typescript.js"></script>
 <script src="libs/pyodide/pyodide.js"></script>
 <script src="app.js"></script>
 
-  <footer style="text-align:center; padding:10px; color:#888;">
+<footer style="text-align:center; padding:10px; color:#888;">
   © 2025 Serhat Sarıkaya. Tüm hakları saklıdır.
-  </footer>
-
+</footer>
 
 </body>
 </html>
-
