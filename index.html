@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kod Editörü</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #1e1e1e;
+      color: #ddd;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-bar {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      background: #2d2d2d;
+      border-bottom: 1px solid #333;
+    }
+
+    select, button {
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+
+    #editor {
+      flex: 1;
+    }
+
+    .output {
+      height: 180px;
+      background: #111;
+      border-top: 1px solid #333;
+      overflow: auto;
+      padding: 8px;
+      font-family: monospace;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <select id="languageSelect">
+    <option value="javascript">JavaScript</option>
+    <option value="python">Python</option>
+  </select>
+
+  <button id="runBtn">▶ Çalıştır</button>
+</div>
+
+<div id="editor"></div>
+<div class="output"><pre id="output"></pre></div>
+
+<!-- Monaco -->
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.55.1/min/vs/loader.js"></script>
+<script>
+  window.__editorReady = new Promise(resolve => {
+    require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.55.1/min/vs' } });
+    require(['vs/editor/editor.main'], () => {
+      window.editor = monaco.editor.create(
+        document.getElementById('editor'),
+        {
+          value: "",
+          language: "javascript",
+          theme: "vs-dark",
+          automaticLayout: true
+        }
+      );
+      resolve();
+    });
+  });
+</script>
+
+<script src="libs/pyodide/pyodide.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
